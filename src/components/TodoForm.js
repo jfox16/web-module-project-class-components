@@ -6,24 +6,34 @@ class TodoForm extends React.Component {
   {
     super(props);
     this.state = {
-      todo: '',
+      task: '',
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleAddClick = this.handleAddClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClearClick = this.handleClearClick.bind(this);
   }
 
   handleChange(e)
   {
     this.setState({
-      todo: e.target.value,
+      task: e.target.value,
     });
   }
 
-  handleAddClick()
+  handleSubmit(e)
   {
-    this.props.addTodo(this.state.todo);
+    e.preventDefault();
+
+    const newTodo = {
+      task: this.state.task,
+      completed: false,
+      id: Date.now(),
+    };
+
+    this.props.addTodo(newTodo);
+
     this.setState({
-      todo: '',
+      task: '',
     });
   }
 
@@ -34,15 +44,15 @@ class TodoForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <form onSubmit={this.handleSubmit}>
 
         <input
           type='text'
-          value={this.state.todo}
+          value={this.state.task}
           onChange={this.handleChange}
         />
 
-        <button onClick={this.handleAddClick}>
+        <button>
           Add Todo
         </button>
 
@@ -50,7 +60,7 @@ class TodoForm extends React.Component {
           Clear Completed
         </button>
 
-      </div>
+      </form>
     );
   }
 }

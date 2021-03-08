@@ -2,6 +2,8 @@ import React from 'react';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
 
+import './App.css';
+
 class App extends React.Component {
   // you will need a place to store your state in this component.
   // design `App` to be the parent component of your application.
@@ -25,22 +27,53 @@ class App extends React.Component {
     }
 
     this.addTodo = this.addTodo.bind(this);
+    this.toggleTodoCompleted = this.toggleTodoCompleted.bind(this);
+    this.clearCompleted = this.clearCompleted.bind(this);
   }
 
-  addTodo(todos) {
+  addTodo(todo) {
     this.setState({
-      todos: {
+      todos: [
         ...this.state.todos,
-        todos
+        todo
+      ]
+    });
+  }
+
+  toggleTodoCompleted(todoToToggle) {
+    const newTodos = [ ...this.state.todos ];
+
+    newTodos.forEach(todo => {
+      if (todo === todoToToggle) {
+        todo.completed = !todo.completed
       }
+    });
+
+    console.log(newTodos);
+
+    this.setState({
+      todos: newTodos
+    })
+  }
+
+  clearCompleted() {
+    this.setState({
+      todos: this.state.todos.filter(todo => !todo.completed)
     });
   }
 
   render() {
     return (
       <div>
-        <TodoList todos={this.state.todos} />
-        <TodoForm addTodo={this.addTodo} />
+        <h1>My Todos</h1>
+        <TodoList
+          todos={this.state.todos}
+          toggleTodoCompleted={this.toggleTodoCompleted}
+        />
+        <TodoForm
+          addTodo={this.addTodo}
+          clearCompleted={this.clearCompleted}
+        />
       </div>
     );
   }

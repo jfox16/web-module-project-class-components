@@ -3,7 +3,7 @@ import React from 'react';
 class Todo extends React.Component {
   render() {
     return (
-      <div>
+      <div onClick={this.props.onClick}>
         <p style={{
           textDecoration: (this.props.todo.completed) ? 'line-through' : 'none',
         }}>
